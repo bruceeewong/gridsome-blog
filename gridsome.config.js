@@ -5,27 +5,36 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = {
-  siteName: 'Gridsome',
+  siteName: "Gridsome",
   plugins: [
     {
-      use: '@gridsome/source-filesystem',
+      use: "@gridsome/source-filesystem",
       options: {
-        typeName: 'BlogPost',
-        path: './content/blog/**/*.md'
-      }
+        typeName: "BlogPost",
+        path: "./content/blog/**/*.md",
+      },
     },
     {
-      use: '@gridsome/source-strapi',
+      use: "@gridsome/source-strapi",
       options: {
-        apiURL: 'http://localhost:1337',
+        apiURL: "http://localhost:1337",
         queryLimit: 1000,
-        contentTypes: ['post', 'tag'],
+        contentTypes: ["post"],
+        // typeName: 'Strapi',
         // singleTypes: ['impressum'],
         loginData: {
-          identifier: '',
-          password: ''
-        }
-      }
-    }
-  ]
-}
+          identifier: "",
+          password: "",
+        },
+      },
+    },
+  ],
+  templates: {
+    StrapiPost: [
+      {
+        path: "/post/:id",
+        component: "./src/templates/Post.vue",
+      },
+    ],
+  },
+};

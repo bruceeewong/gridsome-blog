@@ -20,16 +20,16 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-preview" v-for="edge in $page.posts.edges" :key="edge.node.id">
-            <a href="post.html">
+            <g-link :to="`/post/${edge.node.id}`">
               <h2 class="post-title">
                 {{ edge.node.title }}
               </h2>
-            </a>
+            </g-link>
             <p class="post-meta">Posted by
               <a href="#">Start Bootstrap</a>
               on {{ edge.node.created_at }}</p>
             <p>
-              <span v-for="tag in edge.node.tags" :key="tag">
+              <span v-for="tag in edge.node.tags" :key="tag.title">
                 <a href="" >{{tag.title}}</a>
                 &nbsp;&nbsp;
               </span>
@@ -37,9 +37,10 @@
             <hr>
           </div>
           <!-- Pager -->
-          <div class="clearfix">
+          <pager :info="$page.posts.pageInfo" />
+          <!-- <div class="clearfix">
             <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -47,8 +48,12 @@
 </template>
 
 <page-query>
-query {
-  posts: allStrapiPost {
+query ($page: Int) {
+  posts: allStrapiPost (perPage: 2, page: $page) @paginate {
+    pageInfo {
+      totalPages
+      currentPage
+    }
     edges {
       node {
         id 
@@ -65,10 +70,15 @@ query {
 </page-query>
 
 <script>
+import { Pager } from 'gridsome'
+
 export default {
   name: 'HomePage',
   metaInfo: {
     title: 'Hello, world!'
+  },
+  components: {
+    Pager
   }
 }
 </script>

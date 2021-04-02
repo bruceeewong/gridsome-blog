@@ -6,5 +6,26 @@
 
 module.exports = {
   siteName: 'Gridsome',
-  plugins: []
+  plugins: [
+    {
+      use: '@gridsome/source-filesystem',
+      options: {
+        typeName: 'BlogPost',
+        path: './content/blog/**/*.md'
+      }
+    },
+    {
+      use: '@gridsome/source-strapi',
+      options: {
+        apiURL: 'http://localhost:1337',
+        queryLimit: 1000,
+        contentTypes: ['post', 'tag'],
+        // singleTypes: ['impressum'],
+        loginData: {
+          identifier: '',
+          password: ''
+        }
+      }
+    }
+  ]
 }

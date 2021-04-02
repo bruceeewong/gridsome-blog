@@ -17,7 +17,7 @@ module.exports = {
     {
       use: "@gridsome/source-strapi",
       options: {
-        apiURL: "http://localhost:1337",
+        apiURL: process.env.GRIDSOME_API_URL,
         queryLimit: 1000,
         contentTypes: ["post", "tag", "general"],
         // singleTypes: ["general"],
